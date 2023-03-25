@@ -1,0 +1,65 @@
+Proyecto de Progra Web 2
+
+Aplicación para realizar preguntas anónimas
+
+Hay preguntas de diferentes categorías
+
+Solo los usuarios con cuenta pueden hacer preguntas.
+
+A pesar de que el usuario es anónimo, se pueden guardar datos cómo:
+-Email
+-Contraseña
+-Un nombre
+-Fecha Nacimiento
+-Fecha de creación del usuario.
+-Podría llevar un avatar(hay que revisarlo bien)
+
+El email y la fecha de creacion no se pueden cambiar.
+
+Las preguntas llevan:
+-Título
+-Descripcion
+-(variable boleana de si está contestada o no)
+-fecha de publicacion.
+
+todas las preguntas pertenecen mínimo a una categoría.
+Las preguntas pueden se les puede dar like o dislike
+
+Las respuestas llevan:
+-Respuesta
+-si está aceptada o no.
+-fecha de publicacion.
+-Si le ponemos un avatar, la respuesta podría llevar la foto del que contestó, solo su foto
+
+Las categorías solo llevan el nombre
+ El usuario puede marcar una pregunta como favorita.
+
+
+Habrá un apartado donde se vean las preguntas más likeadas
+Se le podrán agregar  filtros de fecha o por categoría.
+
+
+A pesar de que no se ve el usuario que realizó la pregunta, se debe guardar quién las hizo
+Al entrar a tu perfil puedes ver tus preguntas contestadas y no contestadas.
+
+Tu debes aprobar la respuesta para que sea publicada y los demás usuarios la puedan ver.
+Podemos hacer que el home al principio aparezcan preguntas random sin contestar o que una seccion de la pagina sea de puras preguntas sin contestar.
+En las preguntas sin contestar también habrá filtro de fecha y categoría.
+Al contestarse la pregunta, la pregunta ya no le aparece a nadie hasta que el que hizo la pregunta la apruebe.
+Si no te gusta la respuesta que se haga, la puedes quitar
+Hay una seccion para ver preguntas contestadas, en cada una se muestra la cantidad de likes y dislikes.
+
+Hay un usuario Admin, este puede generar reportes de
+
+Preguntas con más likes.
+Categorías con más preguntas.
+Mes con más preguntas
+Mes con más usuarios.
+
+
+node_modules:
+axios
+nodemon
+express
+
+

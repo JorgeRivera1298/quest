@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const { usuariosregistrados } = require('./usersregisters.js');
-const { User, Pregunta } = require('./backend(bd)/MongoConfig.js');
+const { User, Pregunta, Categoria } = require('./backend(bd)/MongoConfig.js');
 
 
 
@@ -87,6 +87,26 @@ app.post('/api/pregunta', (req, res) => {
     myPregunta.save().then(() => {
         res.status(201).json({
             message: 'Pregunta creada exitosamente'
+        });
+    })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ error: err });
+        });
+})
+
+
+//Register a new Category
+app.post('/api/categoria', (req, res) => {
+    const body = req.body;
+
+    const myCategoria = new Categoria({
+        nombre: body.nombre
+    });
+
+    myCategoria.save().then(() => {
+        res.status(201).json({
+            message: 'Categoria creada exitosamente'
         });
     })
         .catch((err) => {

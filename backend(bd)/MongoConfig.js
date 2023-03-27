@@ -25,10 +25,17 @@ const preguntaSchema = new mongoose.Schema({
     favorita: { type: Boolean, required: true },
 });
 
+// Definición del esquema de categorias
+const categoriaSchema = new mongoose.Schema({
+    nombre: { type: String, required: true }
+});
+
 const User = mongoose.model('user', userSchema);
 const Pregunta = mongoose.model('pregunta', preguntaSchema);
+const Categoria = mongoose.model('categoria', categoriaSchema);
 
 module.exports = {
     User: User,
-    Pregunta: Pregunta
+    Pregunta: Pregunta,
+    Categoria: Categoria
 };

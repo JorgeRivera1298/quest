@@ -8,7 +8,7 @@ function App() {
   const [pass, setPass] = useState('');
 
   const onChange = (e) => {
-    switch(e.target.name){
+    switch (e.target.name) {
       case 'email':
         setUser(e.target.value);
         break;
@@ -21,50 +21,50 @@ function App() {
 
   const onSubmit = () => {
     axios.get(`api/login/${user}/${pass}`)
-        .then((res) => {
-            console.log(res.data[0]);
-        });
+      .then((res) => {
+        console.log(res.data[0]);
+      });
   }
 
   return (
     <div className="container">
-        <div className="login">
-            <div className="left">
+      <div className="login">
+        <div className="left">
 
-               
-            </div>
-            <div className="right">
-            <p className="title">Quest</p>
-                <p className="welcome">Bienvenido a Quest</p>
-                <div className="form" action="">
-                    <label>correo:</label>
-                    <input 
-                      type="text" 
-                      name="email"
-                      value={user}
-                      onChange={(e) => onChange(e)}
-                      />
-                    <label>contraseña:</label>
-                    <input 
-                      type="password"
-                      name="pass" 
-                      value={pass}
-                      onChange={(e) => onChange(e)}
-                    />
-                    <button onClick={() => onSubmit()}>Entrar</button>
-                </div>
 
-               
-            </div>
-            
-            
-        </div>    
+        </div>
+        <div className="right">
+          <p className="title">Quest</p>
+          <p className="welcome">Bienvenido a Quest</p>
+          <div className="form" action="">
+            <label>correo:</label>
+            <input
+              type="text"
+              name="email"
+              value={user}
+              onChange={(e) => onChange(e)}
+            />
+            <label>contraseña:</label>
+            <input
+              type="password"
+              name="pass"
+              value={pass}
+              onChange={(e) => onChange(e)}
+            />
+            <button onClick={() => onSubmit()}>Entrar</button>
+          </div>
+
+
+        </div>
+
+
+      </div>
     </div>
 
 
 
-    
-   
+
+
   );
 }
 

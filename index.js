@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
 const { usuariosregistrados } = require('./usersregisters.js');
-const { User, Pregunta, Categoria } = require('./backend(bd)/MongoConfig.js');
-
-
+const { User, Pregunta, Categoria, Respuesta } = require('./backend(bd)/MongoConfig.js');
 
 app.use(express.json());
 
@@ -68,8 +66,29 @@ app.post('/api/register', (req, res) => {
         });
 })
 
-
 //Register a new Question
+app.post('/api/respuesta', (req, res) => {
+    const body = req.body;
+
+    const myRespuesta = new Respuesta({
+        usuarioId: body.usuarioId,
+        preguntaId: body.preguntaId,
+        respuesta: body.respuesta,
+        fechaPublicacion: new Date()
+    });
+
+    myRespuesta.save().then(() => {
+        res.status(201).json({
+            message: 'Respuesta creada exitosamente'
+        });
+    })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ error: err });
+        });
+})
+
+//Register a new Answer
 app.post('/api/pregunta', (req, res) => {
     const body = req.body;
 
@@ -77,7 +96,7 @@ app.post('/api/pregunta', (req, res) => {
         usuarioId: body.usuarioId,
         titulo: body.titulo,
         contestada: body.contestada,
-        fechaPublicacion: body.fechaPublicacion,
+        fechaPublicacion: new Date(),
         categorias: body.categorias,
         likes: body.likes,
         dislikes: body.dislikes,

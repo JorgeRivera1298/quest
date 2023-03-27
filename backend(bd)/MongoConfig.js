@@ -13,6 +13,22 @@ const userSchema = new mongoose.Schema({
     nickname: { type: String }
 });
 
-const User = mongoose.model('user', userSchema);
+// Definición del esquema de pregunta
+const preguntaSchema = new mongoose.Schema({
+    usuarioId: { type: String, required: true },
+    titulo: { type: String, required: true },
+    contestada: { type: Boolean, required: true },
+    fechaPublicacion: { type: String, required: true },
+    categorias: { type: Array, required: true },
+    likes: { type: Number, required: true },
+    dislikes: { type: Number, required: true },
+    favorita: { type: Boolean, required: true },
+});
 
-module.exports = { User };
+const User = mongoose.model('user', userSchema);
+const Pregunta = mongoose.model('pregunta', preguntaSchema);
+
+module.exports = {
+    User: User,
+    Pregunta: Pregunta
+};

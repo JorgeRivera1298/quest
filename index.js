@@ -18,33 +18,7 @@ app.get('/test', (req, res) => {
     res.send('Entró en la api, mi primer servidor');
 })
 
-//TRAE TODOS MIS USUARIOS
-app.get('/api/users', (req, res) => {
-    res.send(usuariosregistrados);
-})
-
-//Obtener la data de mi Usuario             Supongo que es para la sesion xd
-app.get('/api/mails/:mail', (req, res) => {
-    const mail = req.params.mail;
-    const resultado = usuariosregistrados.user.filter(user => user.mail === mail);
-    if (resultado.length === 0) {
-        return res.status(404).send(`El correo  ${mail} aún no ha sido registrado`);
-    }
-    else res.send(resultado);
-})
-
-//Login
-app.get('/api/login/:mail/:pass', (req, res) => {
-    const mail = req.params.mail;
-    const pass = req.params.pass;
-    const resultado = usuariosregistrados.user.filter(user => user.mail === mail && user.password === pass);
-    if (resultado.length === 0) {
-        return res.status(404).send(`El correo o la contraseña son equivocados. Verifique`);
-    }
-    else res.send(resultado);
-})
-
-//Register a new User
+//REGISTRARSE
 app.post('/api/register', (req, res) => {
     const body = req.body;
 
@@ -66,20 +40,49 @@ app.post('/api/register', (req, res) => {
         });
 })
 
-//Register a new Question
-app.post('/api/respuesta', (req, res) => {
+//LOGIN
+app.get('/api/login/:mail/:pass', async (req, res) => {
+    const mail = req.params.mail;
+    const pass = req.params.pass;
+    let userId = 0;
+
+    try {
+        //Traigo la contra  dado un correo
+        const data = await User.findOne({ email: mail }, 'password');
+
+        //No me trae nada 
+        if (!data) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        //Contraseña equivocada
+        if (pass !== data.password) {
+            return res.status(401).json({ message: 'Verificar datos' });
+        }
+
+        //Todo bien
+        else {
+            //Seteamos el id del usuario
+            userId = data._id
+            return res.status(200).json({ message: 'Login successful' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
+//REGISTRAR CATEGORIAS
+app.post('/api/categoria', (req, res) => {
     const body = req.body;
 
-    const myRespuesta = new Respuesta({
-        usuarioId: body.usuarioId,
-        preguntaId: body.preguntaId,
-        respuesta: body.respuesta,
-        fechaPublicacion: new Date()
+    const myCategoria = new Categoria({
+        nombre: body.nombre
     });
 
-    myRespuesta.save().then(() => {
+    myCategoria.save().then(() => {
         res.status(201).json({
-            message: 'Respuesta creada exitosamente'
+            message: 'Categoria creada exitosamente'
         });
     })
         .catch((err) => {
@@ -88,7 +91,28 @@ app.post('/api/respuesta', (req, res) => {
         });
 })
 
-//Register a new Answer
+//TRAER TODAS LAS CATEGORIAS
+app.get('/api/getCategorias', async (req, res) => {
+
+    try {
+        const data = await Categoria.find()
+
+        //No me trae nada 
+        if (!data) {
+            return res.status(401).json({ message: 'Error en el servidor' });
+        }
+
+        //Todo bien
+        else {
+            return res.status(200).json({ categorias: data });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
+//REGISTRAR UNA PREGUNTA
 app.post('/api/pregunta', (req, res) => {
     const body = req.body;
 
@@ -114,18 +138,20 @@ app.post('/api/pregunta', (req, res) => {
         });
 })
 
-
-//Register a new Category
-app.post('/api/categoria', (req, res) => {
+//REGISTRAR UNA RESPUESTA
+app.post('/api/respuesta', (req, res) => {
     const body = req.body;
 
-    const myCategoria = new Categoria({
-        nombre: body.nombre
+    const myRespuesta = new Respuesta({
+        usuarioId: body.usuarioId,
+        preguntaId: body.preguntaId,
+        respuesta: body.respuesta,
+        fechaPublicacion: new Date()
     });
 
-    myCategoria.save().then(() => {
+    myRespuesta.save().then(() => {
         res.status(201).json({
-            message: 'Categoria creada exitosamente'
+            message: 'Respuesta creada exitosamente'
         });
     })
         .catch((err) => {
@@ -133,6 +159,23 @@ app.post('/api/categoria', (req, res) => {
             res.status(500).json({ error: err });
         });
 })
+
+/*
+//TRAE TODOS MIS USUARIOS
+app.get('/api/users', (req, res) => {
+    res.send(usuariosregistrados);
+})
+
+//Obtener la data de mi Usuario             Supongo que es para la sesion xd
+app.get('/api/mails/:mail', (req, res) => {
+    const mail = req.params.mail;
+    const resultado = usuariosregistrados.user.filter(user => user.mail === mail);
+    if (resultado.length === 0) {
+        return res.status(404).send(`El correo  ${mail} aún no ha sido registrado`);
+    }
+    else res.send(resultado);
+})
+*/
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => console.log(`Servidor corriendo en el puerto  ${port}`));

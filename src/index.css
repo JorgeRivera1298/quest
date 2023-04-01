@@ -20,17 +20,7 @@ body{
   font-family: Alexandria;
 }
 /* container es la parte del fondo */
-.container{
-  width: 100vw;
-  height: 100vh;
 
-  background-color: var(--verde2);
-  background-image: url('./Images/background.png');
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 /* login es el padre que contiene el cuadro central */
 .login{
   width: 50vw;

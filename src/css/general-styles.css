@@ -1,0 +1,20 @@
+/* @font-face son las 2 fuentes descargadas. (Pacifico para cursiva y Alexandria para todo) */
+@font-face {
+    font-family: Pacifico;
+    src: url(../fonts/Pacifico-Regular.ttf);
+        
+}
+@font-face {
+    font-family: Alexandria;
+    src: url(../fonts/Alexandria-VariableFont_wght.ttf);
+}
+/* :root sirve para crear unos valores y usarlos en todo el css (es como usar variables en css) */
+:root{
+    --blanco1: rgb(255,255,255);
+    --gris1: rgb(208,208,208);
+    --gris2: rgb(105,105,105);
+    --gris3: rgb(84,87,81);
+    --verde1: rgb(146, 173, 161);
+    --verde2: rgb(109,117,112);
+    --negro1: rgb(0,0,0);
+}

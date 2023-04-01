@@ -1,9 +1,25 @@
 const express = require('express');
+const morgan= require('morgan');
 const app = express();
-const { usuariosregistrados } = require('./usersregisters.js');
-const { User, Pregunta, Categoria, Respuesta } = require('./backend(bd)/MongoConfig.js');
+const path = require('path');
+const {mongoose} = require('./backend(bd)/MongoConfig');
+const { Pregunta, Categoria, Respuesta, Like, Dislike,Favorita } = require('./backend(bd)/MongoConfig.js');
+const User = require('./backend(bd)/models/user');
 
+//Configuración del servidor
+app.set('port',process.env.PORT || 3001);
+
+
+//Middlewares
+app.use(morgan('dev'));
 app.use(express.json());
+
+//Corriendo el servidor.
+
+app.listen(app.get('port'),()=> {
+    console.log(`Servidor corriendo en el puerto ${app.get('port')}`);
+    });
+    
 
 // CORS
 app.use((req, res, next) => {
@@ -14,12 +30,22 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/test', (req, res) => {
-    res.send('Entró en la api, mi primer servidor');
+app.get('/', async (req, res) => {
+
+
+    
+// const users = await User.find();
+//     res.json(users);
+res.json('API ON')
 })
 
-//REGISTRARSE
-app.post('/api/register', (req, res) => {
+
+
+
+
+
+
+app.post('/api/register',async (req, res) => {
     const body = req.body;
 
     const myUser = new User({
@@ -28,8 +54,10 @@ app.post('/api/register', (req, res) => {
         name: body.name,
         nickname: body.nickname
     });
+    console.log(myUser);
+    
 
-    myUser.save().then(() => {
+    await myUser.save().then(() => {
         res.status(201).json({
             message: 'Usuario creado exitosamente'
         });
@@ -38,13 +66,15 @@ app.post('/api/register', (req, res) => {
             console.error(err);
             res.status(500).json({ error: err });
         });
-})
+} );
 
-//LOGIN
 app.get('/api/login/:mail/:pass', async (req, res) => {
     const mail = req.params.mail;
     const pass = req.params.pass;
     let userId = 0;
+
+    console.log(mail);
+    console.log(pass);
 
     try {
         //Traigo la contra  dado un correo
@@ -53,6 +83,7 @@ app.get('/api/login/:mail/:pass', async (req, res) => {
         //No me trae nada 
         if (!data) {
             return res.status(401).json({ message: 'Invalid credentials' });
+            
         }
 
         //Contraseña equivocada
@@ -64,13 +95,17 @@ app.get('/api/login/:mail/:pass', async (req, res) => {
         else {
             //Seteamos el id del usuario
             userId = data._id
-            return res.status(200).json({ message: 'Login successful' });
+            return res.status(200).json(data);
         }
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err });
     }
+
 });
+
+
+
 
 //REGISTRAR CATEGORIAS
 app.post('/api/categoria', (req, res) => {
@@ -177,5 +212,5 @@ app.get('/api/mails/:mail', (req, res) => {
 })
 */
 
-const port = process.env.PORT || 3001;
-app.listen(port, () => console.log(`Servidor corriendo en el puerto  ${port}`));
+
+//app.listen(port, () => console.log(`Servidor corriendo en el puerto  ${port}`));

@@ -4,7 +4,6 @@ import { axiosBase as axios } from "../servicies/config";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../css/login.css';
 import '../css/general-styles.css';
-import User from '../stuff/UserSingleton'
 
 function Login() {
   const [user, setUser] = useState('');
@@ -25,9 +24,10 @@ function Login() {
   const onSubmit = () => {
     axios.get(`api/login/${user}/${pass}`)
       .then((res) => {
-        console.log(res.data);
-        const userInstance = new User();
-        userInstance.setMyUserId(5)
+        //console.log(res.data.userId);
+        localStorage.setItem("userId", res.data.userId)
+        //      const userInstance = new User();
+        //     userInstance.setMyUserId(5)
         //alert('Bienvenido');
         navigate('/home'); // Navigate to '/home' using navigate function
       })

@@ -4,16 +4,16 @@ import { axiosBase as axios } from "../servicies/config";
 import '../css/home.css';
 import '../css/general-styles.css';
 import Navbar from './Navbar';
-import User from '../stuff/UserSingleton';
 
 let flag = true
+let userId = 0;
 
 function Home() {
     if (flag) {
         flag = false;
 
-        const userInstance = new User();
-        console.log(userInstance.getMyUserId())
+        userId = localStorage.getItem("userId")
+        console.log(userId)
 
         //TRAER TODAS LAS CATEGORIAS
         axios.get(`api/getCategorias`)
@@ -26,6 +26,8 @@ function Home() {
             })
     }
 
+
+    
     return (
         <div className="nav">
             <Navbar />

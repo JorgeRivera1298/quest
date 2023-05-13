@@ -1,6 +1,9 @@
 const User = require('./backend(bd)/models/user');
 
 exports.usuario_create = async (req, res) => {
+
+    //console.log("JAPANESE GIRLS");
+
     const body = req.body;
 
     const myUser = new User({
@@ -20,7 +23,7 @@ exports.usuario_create = async (req, res) => {
             console.error(err);
             res.status(500).json({ error: err });
         });
-  };
+};
 
 exports.usuario_login = async (req, res) => {
     const mail = req.params.mail;
@@ -37,7 +40,7 @@ exports.usuario_login = async (req, res) => {
         //No me trae nada 
         if (!data) {
             return res.status(401).json({ message: 'Invalid credentials' });
-            
+
         }
 
         //Contraseña equivocada
@@ -55,4 +58,4 @@ exports.usuario_login = async (req, res) => {
         console.error(err);
         res.status(500).json({ error: err });
     }
-  };
+};

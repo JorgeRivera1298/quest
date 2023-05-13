@@ -91,5 +91,4 @@ module.exports = {
     Like: Like,
     Dislike: Dislike,
     Favorita: Favorita
-
 };

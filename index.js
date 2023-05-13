@@ -39,6 +39,7 @@ app.get('/', async (req, res) => {
 
 //PARA REGISTRARSE
 app.post('/api/register', async (req, res) => {
+
     const body = req.body;
 
     const myUser = new User({
@@ -65,10 +66,6 @@ app.post('/api/register', async (req, res) => {
 app.get('/api/login/:mail/:pass', async (req, res) => {
     const mail = req.params.mail;
     const pass = req.params.pass;
-    let userId = 0;
-
-    console.log(mail);
-    console.log(pass);
 
     try {
         //Traigo la contra  dado un correo
@@ -86,15 +83,12 @@ app.get('/api/login/:mail/:pass', async (req, res) => {
 
         //Todo bien
         else {
-            //Seteamos el id del usuario
-            userId = data._id
-            return res.status(200).json(data);
+            return res.status(200).json({ userId: data._id });
         }
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: err });
     }
-
 });
 
 //REGISTRAR CATEGORIAS

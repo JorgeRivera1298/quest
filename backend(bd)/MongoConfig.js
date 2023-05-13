@@ -1,27 +1,24 @@
 const mongoose = require('mongoose');
 
 // Conexión a la base de datos de MongoDB
-mongoose.connect('mongodb://localhost:27017/PW2db', { 
+mongoose.connect('mongodb://localhost:27017/PW2db', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    family:4, })
+    family: 4,
+})
     .then(() => console.log('Conexión exitosa a la base de datos'))
     .catch(err => console.error(err));
 
-
-module.exports=mongoose;
-
+module.exports = mongoose;
 
 // Definición del esquema de pregunta
 const preguntaSchema = new mongoose.Schema({
-    usuarioId: { type: String, required: true },
     titulo: { type: String, required: true },
-    contestada: { type: Boolean, required: true },
-    fechaPublicacion: { type: String, required: true },
-    categorias: { type: Array, required: true },
-    likes: { type: Number, required: true },
-    dislikes: { type: Number, required: true },
-    favorita: { type: Boolean, required: true },
+    descripcion: { type: String, required: true },
+    contestada: { type: Boolean, default: false, required: true },
+    fechaPublicacion: { type: Date, default: Date.now },
+    usuarioId: { type: String, required: true },
+    categoriaId: { type: String, required: true },
 });
 
 // Definición del esquema de respuestas
@@ -29,12 +26,14 @@ const respuestaSchema = new mongoose.Schema({
     usuarioId: { type: Number, required: true },             //El usuario que respondio
     preguntaId: { type: Number, required: true },         //El id de la pregunta a la que se respondio
     respuesta: { type: String, required: true },
-    fechaPublicacion: { type: String, required: true }
+    aceptada: { type: Boolean, default: false, required: true },
+    fechaPublicacion: { type: Date, default: Date.now }
 });
 
 // Definición del esquema de categorias
 const categoriaSchema = new mongoose.Schema({
-    nombre: { type: String, required: true }
+    nombre: { type: String, required: true },
+    creationDate: { type: Date, default: Date.now }
 });
 
 const likeSchema = new mongoose.Schema({
@@ -50,7 +49,6 @@ const likeSchema = new mongoose.Schema({
     }
 });
 
-// Definición del esquema de categorias
 const dislikeSchema = new mongoose.Schema({
     id_usuario: {
         required: true,
@@ -77,8 +75,7 @@ const favoritaSchema = new mongoose.Schema({
     }
 });
 
-
-
+//const User = mongoose.model('user', userSchema);
 const Pregunta = mongoose.model('pregunta', preguntaSchema);
 const Respuesta = mongoose.model('respuesta', respuestaSchema);
 const Categoria = mongoose.model('categoria', categoriaSchema);
@@ -87,12 +84,12 @@ const Dislike = mongoose.model('dislike', dislikeSchema);
 const Favorita = mongoose.model('favorita', favoritaSchema);
 
 module.exports = {
-    
+    //User: User,
     Pregunta: Pregunta,
     Respuesta: Respuesta,
     Categoria: Categoria,
-    Like:Like,
-    Dislike:Dislike,
-    Favorita:Favorita
+    Like: Like,
+    Dislike: Dislike,
+    Favorita: Favorita
 
 };

@@ -1,13 +1,13 @@
 const express = require('express');
-const morgan= require('morgan');
+const morgan = require('morgan');
 const app = express();
 const path = require('path');
-const {mongoose} = require('./backend(bd)/MongoConfig');
-const { Pregunta, Categoria, Respuesta, Like, Dislike,Favorita } = require('./backend(bd)/MongoConfig.js');
+const { mongoose } = require('./backend(bd)/MongoConfig');
+const { Pregunta, Categoria, Respuesta, Like, Dislike, Favorita } = require('./backend(bd)/MongoConfig.js');
 const User = require('./backend(bd)/models/user');
 
 //Configuración del servidor
-app.set('port',process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3001);
 
 
 //Middlewares
@@ -16,10 +16,10 @@ app.use(express.json());
 
 //Corriendo el servidor.
 
-app.listen(app.get('port'),()=> {
+app.listen(app.get('port'), () => {
     console.log(`Servidor corriendo en el puerto ${app.get('port')}`);
-    });
-    
+});
+
 
 // CORS
 app.use((req, res, next) => {
@@ -32,30 +32,23 @@ app.use((req, res, next) => {
 
 app.get('/', async (req, res) => {
 
-
-    
-// const users = await User.find();
-//     res.json(users);
-res.json('API ON')
+    // const users = await User.find();
+    //     res.json(users);
+    res.json('API ON')
 })
 
-
-
-
-
-
-
-app.post('/api/register',async (req, res) => {
+//PARA REGISTRARSE
+app.post('/api/register', async (req, res) => {
     const body = req.body;
 
     const myUser = new User({
         email: body.email,
         password: body.password,
         name: body.name,
-        nickname: body.nickname
+        nickname: body.nickname,
+        lastName: body.lastName
     });
     console.log(myUser);
-    
 
     await myUser.save().then(() => {
         res.status(201).json({
@@ -66,8 +59,9 @@ app.post('/api/register',async (req, res) => {
             console.error(err);
             res.status(500).json({ error: err });
         });
-} );
+});
 
+//PARA LOGUEARSE
 app.get('/api/login/:mail/:pass', async (req, res) => {
     const mail = req.params.mail;
     const pass = req.params.pass;
@@ -83,7 +77,6 @@ app.get('/api/login/:mail/:pass', async (req, res) => {
         //No me trae nada 
         if (!data) {
             return res.status(401).json({ message: 'Invalid credentials' });
-            
         }
 
         //Contraseña equivocada
@@ -103,9 +96,6 @@ app.get('/api/login/:mail/:pass', async (req, res) => {
     }
 
 });
-
-
-
 
 //REGISTRAR CATEGORIAS
 app.post('/api/categoria', (req, res) => {
@@ -194,6 +184,16 @@ app.post('/api/respuesta', (req, res) => {
             res.status(500).json({ error: err });
         });
 })
+
+
+
+
+
+
+
+
+
+
 
 /*
 //TRAE TODOS MIS USUARIOS

@@ -58,6 +58,7 @@ function Home() {
             .then((res) => {
                 //console.log(res.data);
                 let data = res.data
+                console.log(data)
                 for (let i = 0; i < data.length; i++) {
                     if (res.data[i].contestada == false) {
                         arrPerguntasNoContestadas.push(res.data[i])

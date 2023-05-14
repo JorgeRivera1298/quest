@@ -160,8 +160,7 @@ app.post('/api/respuesta', (req, res) => {
     const myRespuesta = new Respuesta({
         usuarioId: body.usuarioId,
         preguntaId: body.preguntaId,
-        respuesta: body.respuesta,
-        fechaPublicacion: new Date()
+        respuesta: body.respuesta
     });
 
     myRespuesta.save().then(() => {
@@ -186,6 +185,84 @@ app.get('/api/preguntas', async (req, res) => {
         res.status(500).json({ error: err });
     }
 });
+
+//EDITAR RESPUESTA
+app.put('/api/editarRespuesta', async (req, res) => {
+    try {
+        const respuestaId = req.body.respuestaId;
+        const updatedFields = {
+            respuesta: req.body.respuesta,
+            aceptada: req.body.aceptada,
+        };
+
+        const updatedRespuesta = await Respuesta.findByIdAndUpdate(respuestaId, updatedFields, { new: true });
+
+        if (!updatedRespuesta) {
+            return res.status(404).json({ message: 'respuesta not found' });
+        }
+
+        return res.status(200).json({ message: 'respuesta updated successfully', respuesta: updatedRespuesta });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: err });
+    }
+});
+
+//EDITAR PREGUNTA
+app.put('/api/editarPregunta', async (req, res) => {
+    try {
+        const preguntaId = req.body.preguntaId;
+        const updatedFields = {
+            titulo: req.body.titulo,
+            descripcion: req.body.descripcion,
+            contestada: req.body.contestada,
+            categoriaId: req.body.categoriaId,
+        };
+
+        const updatedPregunta = await Pregunta.findByIdAndUpdate(preguntaId, updatedFields, { new: true });
+
+        if (!updatedPregunta) {
+            return res.status(404).json({ message: 'Pregunta not found' });
+        }
+
+        return res.status(200).json({ message: 'Pregunta updated successfully', pregunta: updatedPregunta });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: err });
+    }
+});
+
+//TRAE 1 RESPUES DE 1 PREGUNTA
+app.get('/api/preguntaRespuesta/:preguntaId', async (req, res) => {
+
+    const preguntaId = req.params.preguntaId;
+
+    try {
+        const data = await Respuesta.findOne({ preguntaId: preguntaId });
+        return res.status(200).json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
+//TRAE TODAS LAS RESPUESTAS DE 1 PREGUNTA
+app.get('/api/preguntaRespuestas/:preguntaId', async (req, res) => {
+
+    const preguntaId = req.params.preguntaId;
+
+    try {
+        const data = await Respuesta.find({ preguntaId: preguntaId });
+        return res.status(200).json(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
+
+
+
 
 
 

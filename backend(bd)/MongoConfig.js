@@ -23,10 +23,10 @@ const preguntaSchema = new mongoose.Schema({
 
 // Definición del esquema de respuestas
 const respuestaSchema = new mongoose.Schema({
-    usuarioId: { type: Number, required: true },             //El usuario que respondio
-    preguntaId: { type: Number, required: true },         //El id de la pregunta a la que se respondio
+    usuarioId: { type: String, required: true },             //El usuario que respondio
+    preguntaId: { type: String, required: true },         //El id de la pregunta a la que se respondio
     respuesta: { type: String, required: true },
-    aceptada: { type: Boolean, default: false, required: true },
+    aceptada: { type: Boolean, default: false},
     fechaPublicacion: { type: Date, default: Date.now }
 });
 

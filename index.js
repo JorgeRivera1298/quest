@@ -140,7 +140,7 @@ app.post('/api/pregunta', (req, res) => {
         descripcion: body.descripcion,
         usuarioId: body.usuarioId,
         categoriaId: body.categoriaId,
-        });
+    });
 
     myPregunta.save().then(() => {
         res.status(201).json({
@@ -174,6 +174,19 @@ app.post('/api/respuesta', (req, res) => {
             res.status(500).json({ error: err });
         });
 })
+
+//TRAER TODAS LAS PREGUNTAS
+app.get('/api/preguntas', async (req, res) => {
+
+    try {
+        const preguntas = await Pregunta.find();
+        return res.status(200).json(preguntas);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+    }
+});
+
 
 
 

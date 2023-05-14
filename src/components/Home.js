@@ -7,10 +7,12 @@ import Navbar from './Navbar';
 
 let flag = true
 let userId = 0;
+let arrPerguntasContestadas = []
+let arrPerguntasNoContestadas = []
 
 function Home() {
 
-    const onSubmit = () => {
+    const registrarPregunta = () => {
         let data1 = document.querySelector("#preguntaTitulo").value;
         let data2 = document.querySelector("#preguntaTexto").value;
 
@@ -27,7 +29,10 @@ function Home() {
                 .then((res) => {
                     alert('Pregunta creado correctamente');
                 })
-                .then(err => { console.log(err) });
+                .catch((err) => {
+                    alert('Ocurrio un error');
+                    console.log(err);
+                })
         } else {
             console.log("Elements not found");
         }
@@ -47,6 +52,29 @@ function Home() {
                 alert('No se pudieron traer las categorias');
                 console.log(err);
             })
+
+        //TRAER TODAS LAS PREGUNTAS
+        axios.get(`api/preguntas`)
+            .then((res) => {
+                //console.log(res.data);
+                let data = res.data
+                for (let i = 0; i < data.length; i++) {
+                    if (res.data[i].contestada == false) {
+                        arrPerguntasNoContestadas.push(res.data[i])
+                        console.log("PREGUNTA NO CONTESTADA");
+                        console.log(res.data[i].contestada);
+                    }
+                    else {
+                        arrPerguntasContestadas.push(res.data[i])
+                        console.log("PREGUNTA CONTESTADA");
+                        console.log(res.data[i].contestada);
+                    }
+                }
+            })
+            .catch((err) => {
+                alert('No se pudieron traer las categorias');
+                console.log(err);
+            })
     }
 
     return (
@@ -54,6 +82,7 @@ function Home() {
             <Navbar />
 
             <div className="parte">
+
                 <div className="izq">
                     <ul className="izq_ul">
                         <li>entretenimiento</li>
@@ -71,12 +100,12 @@ function Home() {
                         <div action="" className="cuadro">
                             <input type="text" id="preguntaTitulo" name="title" placeholder="Titulo de tu Pregunta" />
                             <textarea id="preguntaTexto" name="question" cols="10" rows="40" placeholder="Redacta tu Pregunta"></textarea>
-                            <input type="image" src={require('../Images/checked.png')} alt="submit" onClick={onSubmit} />
+                            <input type="image" src={require('../Images/checked.png')} alt="submit" onClick={registrarPregunta} />
                         </div>
                     </div>
 
 
-           
+                    {/*  
                     <div className="cards">
                         <p className="title">Preguntas Contestadas</p>
                         <div className="card">
@@ -91,10 +120,9 @@ function Home() {
                             <p className="c_question">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit cupiditate alias aperiam beatae nisi. Repudiandae nemo commodi suscipit. Repudiandae maiores perspiciatis culpa et distinctio eius amet ullam nobis ipsum odit.</p>
                             <p className="c_answer">Respuesta: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit cupiditate alias aperiam beatae nisi. Repudiandae nemo commodi suscipit. Repudiandae maiores perspiciatis culpa et distinctio eius amet ullam nobis ipsum odit.</p>
                         </div>
-                    </div>
+                    </div>*/}
 
-               
-                       <div class="cards">
+                    <div class="cards">
                         <p class="title">Preguntas Sin Contestar</p>
                         <div class="card">
                             <p class="c_title">Titulo de la pregnta</p>
@@ -106,7 +134,7 @@ function Home() {
                             </form>
                         </div>
                     </div>
- 
+
 
                 </div>
             </div>

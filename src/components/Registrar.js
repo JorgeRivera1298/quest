@@ -4,19 +4,19 @@ import { axiosBase as axios } from "../servicies/config";
 import '../css/register.css';
 import '../css/general-styles.css';
 
-function Registrar(){
-      //Hooks
-      const [name, setName] = useState('');
-      const [nickname, setNickname] = useState('');
-      const [email, setEmail] = useState('');
-      const [pass, setPass] = useState('');
+function Registrar() {
+    //Hooks
+    const [name, setName] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [email, setEmail] = useState('');
+    const [pass, setPass] = useState('');
 
 
-      const onChange = (e) => {
+    const onChange = (e) => {
         switch (e.target.name) {
             case 'name':
                 setName(e.target.value);
-                break;   
+                break;
             case 'nickname':
                 setNickname(e.target.value);
                 break;
@@ -27,26 +27,28 @@ function Registrar(){
                 setPass(e.target.value);
                 break;
         }
-      }
+    }
 
-    function agregarUsuario(){
+    function agregarUsuario() {
 
-        var usuario ={
+        var usuario = {
             name: name,
             nickname: nickname,
             email: email,
-            password:pass
+            password: pass
         }
         axios.post(`api/register`, usuario)
-        .then((res) => {
-            alert('Usuario creado correctamente');
-          console.log(res.data);
-        })
-        .then(err =>{console.log(err)});
-
+            .then((res) => {
+                alert('Usuario creado correctamente');
+                console.log(res.data);
+            })
+            .catch((err) => {
+                alert('Ocurrio un error');
+                console.log(err);
+            })
     }
-    
-    return(
+
+    return (
         <div className="container">
             <div className="register">
                 <div className="izquierda">
@@ -67,37 +69,37 @@ function Registrar(){
                             value={nickname}
                             onChange={(e) => onChange(e)}
                         />
-                            <label>Correo:</label>
+                        <label>Correo:</label>
                         <input
                             type="text"
                             name="email"
                             value={email}
                             onChange={(e) => onChange(e)}
                         />
-                            <label>Contraseña:</label>
+                        <label>Contraseña:</label>
                         <input
                             type="password"
                             name="pass"
                             value={pass}
                             onChange={(e) => onChange(e)}
                         />
-                                    
-                        <input type="submit" value="Registrarse"  onClick={agregarUsuario}></input>
+
+                        <input type="submit" value="Registrarse" onClick={agregarUsuario}></input>
                         <a href="/" className="iniciar">Iniciar Sesion</a>
                         {/* <button type="submit" onClick={() => onSubmit()}>Entrar</button> */}
                     </div>
                 </div>
                 <div className="derecha">
-                    <img className='imagen' src={ require('../Images/design-person2.png') } />  
+                    <img className='imagen' src={require('../Images/design-person2.png')} />
                 </div>
 
 
             </div>
-         </div>
+        </div>
     );
-       
 
-    
+
+
 }
 
 export default Registrar;

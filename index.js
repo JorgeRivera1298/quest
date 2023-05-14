@@ -136,15 +136,11 @@ app.post('/api/pregunta', (req, res) => {
     const body = req.body;
 
     const myPregunta = new Pregunta({
-        usuarioId: body.usuarioId,
         titulo: body.titulo,
-        contestada: body.contestada,
-        fechaPublicacion: new Date(),
-        categorias: body.categorias,
-        likes: body.likes,
-        dislikes: body.dislikes,
-        favorita: body.favorita
-    });
+        descripcion: body.descripcion,
+        usuarioId: body.usuarioId,
+        categoriaId: body.categoriaId,
+        });
 
     myPregunta.save().then(() => {
         res.status(201).json({

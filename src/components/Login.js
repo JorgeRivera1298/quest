@@ -24,11 +24,7 @@ function Login() {
   const onSubmit = () => {
     axios.get(`api/login/${user}/${pass}`)
       .then((res) => {
-        //console.log(res.data.userId);
         localStorage.setItem("userId", res.data.userId)
-        //      const userInstance = new User();
-        //     userInstance.setMyUserId(5)
-        //alert('Bienvenido');
         navigate('/home'); // Navigate to '/home' using navigate function
       })
       .catch((err) => {

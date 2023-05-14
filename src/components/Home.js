@@ -9,11 +9,34 @@ let flag = true
 let userId = 0;
 
 function Home() {
+
+    const onSubmit = () => {
+        let data1 = document.querySelector("#preguntaTitulo").value;
+        let data2 = document.querySelector("#preguntaTexto").value;
+
+        if (data1 && data2) {
+
+            var newQuestion = {
+                titulo: data1,
+                descripcion: data2,
+                usuarioId: userId,
+                categoriaId: "EjemploCategoria",
+            }
+
+            axios.post(`api/pregunta`, newQuestion)
+                .then((res) => {
+                    alert('Pregunta creado correctamente');
+                })
+                .then(err => { console.log(err) });
+        } else {
+            console.log("Elements not found");
+        }
+    };
+
     if (flag) {
         flag = false;
-
         userId = localStorage.getItem("userId")
-        console.log(userId)
+        //console.log(userId)
 
         //TRAER TODAS LAS CATEGORIAS
         axios.get(`api/getCategorias`)
@@ -26,13 +49,11 @@ function Home() {
             })
     }
 
-
-    
     return (
         <div className="nav">
             <Navbar />
-            <div className="parte">
 
+            <div className="parte">
                 <div className="izq">
                     <ul className="izq_ul">
                         <li>entretenimiento</li>
@@ -43,15 +64,19 @@ function Home() {
                         <li>animales</li>
                     </ul>
                 </div>
+
+
                 <div className="der">
                     <div className="crear">
                         <div action="" className="cuadro">
-
-                            <input type="text" name="title" placeholder="Titulo de tu Pregunta" />
-                            <textarea name="question" id="" cols="10" rows="40" placeholder="Redacta tu Pregunta"></textarea>
-                            <input type="image" src={require('../Images/checked.png')} on alt="submit" />
+                            <input type="text" id="preguntaTitulo" name="title" placeholder="Titulo de tu Pregunta" />
+                            <textarea id="preguntaTexto" name="question" cols="10" rows="40" placeholder="Redacta tu Pregunta"></textarea>
+                            <input type="image" src={require('../Images/checked.png')} alt="submit" onClick={onSubmit} />
                         </div>
                     </div>
+
+
+           
                     <div className="cards">
                         <p className="title">Preguntas Contestadas</p>
                         <div className="card">
@@ -68,7 +93,8 @@ function Home() {
                         </div>
                     </div>
 
-                    <div class="cards">
+               
+                       <div class="cards">
                         <p class="title">Preguntas Sin Contestar</p>
                         <div class="card">
                             <p class="c_title">Titulo de la pregnta</p>
@@ -79,12 +105,12 @@ function Home() {
                                 <input type="image" src={require('../Images/checked.png')} on alt="submit" />
                             </form>
                         </div>
-
                     </div>
+ 
+
                 </div>
             </div>
         </div>
-
     );
 }
 

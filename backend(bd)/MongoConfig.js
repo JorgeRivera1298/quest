@@ -15,7 +15,7 @@ module.exports = mongoose;
 const preguntaSchema = new mongoose.Schema({
     titulo: { type: String, required: true },
     descripcion: { type: String, required: true },
-    contestada: { type: Boolean, default: false, required: true },
+    contestada: { type: Boolean, default: false},
     fechaPublicacion: { type: Date, default: Date.now },
     usuarioId: { type: String, required: true },
     categoriaId: { type: String, required: true },

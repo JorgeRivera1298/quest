@@ -6,7 +6,7 @@ mongoose.connect('mongodb://localhost:27017/PW2db', {
     useUnifiedTopology: true,
     family: 4,
 })
-    .then(() => console.log('Conexión exitosa a la base de datos'))
+    .then(() => console.log('Conexión exitosa a la base de datos '))
     .catch(err => console.error(err));
 
 module.exports = mongoose;
@@ -27,7 +27,8 @@ const respuestaSchema = new mongoose.Schema({
     preguntaId: { type: String, required: true },         //El id de la pregunta a la que se respondio
     respuesta: { type: String, required: true },
     aceptada: { type: Boolean, default: false},
-    fechaPublicacion: { type: Date, default: Date.now }
+    fechaPublicacion: { type: Date, default: Date.now },
+    // id_pregunta: { type: mongoose.Schema.Types.ObjectId, ref: preguntaSchema }//lo que dbí hacer
 });
 
 // Definición del esquema de categorias
@@ -74,6 +75,7 @@ const favoritaSchema = new mongoose.Schema({
         ref: "pregunta"
     }
 });
+
 
 //const User = mongoose.model('user', userSchema);
 const Pregunta = mongoose.model('pregunta', preguntaSchema);

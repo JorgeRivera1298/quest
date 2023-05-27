@@ -7,9 +7,11 @@ import '../css/general-styles.css';
 function Registrar() {
     //Hooks
     const [name, setName] = useState('');
+    const [lastname, setLastname] = useState('');
     const [nickname, setNickname] = useState('');
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+    
 
 
     const onChange = (e) => {
@@ -17,6 +19,11 @@ function Registrar() {
             case 'name':
                 setName(e.target.value);
                 break;
+               
+            case 'lastname':
+                setLastname(e.target.value);
+                break;
+
             case 'nickname':
                 setNickname(e.target.value);
                 break;
@@ -33,6 +40,7 @@ function Registrar() {
 
         var usuario = {
             name: name,
+            lastname:lastname,
             nickname: nickname,
             email: email,
             password: pass
@@ -60,6 +68,13 @@ function Registrar() {
                             type="text"
                             name="name"
                             value={name}
+                            onChange={(e) => onChange(e)}
+                        />
+                        <label>Apellidos:</label>
+                        <input
+                            type="text"
+                            name="lastname"
+                            value={lastname}
                             onChange={(e) => onChange(e)}
                         />
                         <label>Nickname:</label>
